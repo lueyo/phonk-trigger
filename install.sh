@@ -29,18 +29,19 @@ fi
 # Instalar dependencias del sistema
 echo "Instalando dependencias del sistema..."
 sudo apt update
-sudo apt install -y python3 python3-pip python3-venv qdbus
+sudo apt install -y python3 python3-pip python3-venv qttools5-dev-tools
 
 # Instalar Poetry si no está instalado
 if ! command -v poetry &> /dev/null; then
     echo "Instalando Poetry..."
     curl -sSL https://install.python-poetry.org | python3 -
     export PATH="$HOME/.local/bin:$PATH"
+    source $HOME/.bashrc
 fi
 
 # Instalar dependencias de Python con Poetry
 echo "Instalando dependencias de Python..."
-poetry install
+$HOME/.local/bin/poetry install
 
 # Crear o actualizar config_phonk.json
 echo "Configurando config_phonk.json..."
@@ -56,6 +57,6 @@ echo ""
 echo "Para ejecutar el programa, copia y pega los siguientes comandos:"
 echo ""
 echo "cd $(pwd)"
-echo "poetry run python phonk_script.py"
+echo "$HOME/.local/bin/poetry run python phonk_script.py"
 echo ""
 echo "Nota: Asegúrate de que el directorio MP3 contiene archivos .mp3 válidos."
