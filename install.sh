@@ -12,6 +12,20 @@ if ! grep -q "Ubuntu" /etc/os-release; then
     exit 1
 fi
 
+# Obtener MP3_DIR del argumento o pedirlo
+if [ -n "$1" ]; then
+    MP3_DIR="$1"
+else
+    echo "Por favor, introduce la ruta completa al directorio que contiene los archivos MP3:"
+    read -r MP3_DIR
+fi
+
+# Validar que la ruta existe
+if [ ! -d "$MP3_DIR" ]; then
+    echo "La ruta especificada no existe o no es un directorio. Saliendo..."
+    exit 1
+fi
+
 # Instalar dependencias del sistema
 echo "Instalando dependencias del sistema..."
 sudo apt update
@@ -27,17 +41,6 @@ fi
 # Instalar dependencias de Python con Poetry
 echo "Instalando dependencias de Python..."
 poetry install
-
-# Pedir al usuario la ruta de los edits (MP3_DIR)
-echo ""
-echo "Por favor, introduce la ruta completa al directorio que contiene los archivos MP3:"
-read -r MP3_DIR
-
-# Validar que la ruta existe
-if [ ! -d "$MP3_DIR" ]; then
-    echo "La ruta especificada no existe o no es un directorio. Saliendo..."
-    exit 1
-fi
 
 # Crear o actualizar config_phonk.json
 echo "Configurando config_phonk.json..."
